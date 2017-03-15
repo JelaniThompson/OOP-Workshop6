@@ -12,17 +12,17 @@ namespace communication {
         m_noOfPhoneNumbers = 0;
     }
 
-    Contact::Contact(int name, long long *phoneNumbers, int noOfPhoneNumbers) {
+    Contact::Contact(char name[21], long long *phoneNumbers, int noOfPhoneNumbers) {
         // Validate arguments
-        if (name != nullptr && strcmp(name, "") != 0) {
-            strcpy(name, m_name);
+        if (name != nullptr && std::strcmp(name, "") != 0) {
+            std::strcpy(name, m_name);
         }
 
         if (phoneNumbers != nullptr && phoneNumbers > 0) {
             // Parse string in (+COUNTRY_CODE) AREA_CODE NNN-NNNN format
             for (int i = 0; i < noOfPhoneNumbers; i++) {
-                if (std::regex_match(phoneNumbers[i], "/\d{11}|\d{12}/g")) {
-                    strcpy(m_phoneNumbers[i], phoneNumbers[i]);
+                if (phoneNumbers[i] <= 1000000000000 && phoneNumbers[i] > 10000000000) {
+                    m_phoneNumbers[i] = phoneNumbers[i];
                 }
             }
         }
@@ -32,14 +32,14 @@ namespace communication {
             else {
                 // Allocate enough space and copy the valid phone numbers
                 m_phoneNumbers = new long long[noOfPhoneNumbers];
-                strcpy(phoneNumbers[i], m_phoneNumbers);
+                phoneNumbers[i] = m_phoneNumbers[i];
             }
         }
     }
 
     // Destructor
     Contact::~Contact() {
-        // if m_phoneNumbers doesn't equalnullptr, delete m_phoneNumbers
+        // if m_phoneNumbers doesn't equal nullptr, delete m_phoneNumbers
         if (m_phoneNumbers != nullptr) {
             delete m_phoneNumbers;
         }
